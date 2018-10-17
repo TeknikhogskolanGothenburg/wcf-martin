@@ -13,25 +13,38 @@ namespace Test
         static void Main(string[] args)
         {
             //var dataClient = new DAL.RentalCarDbClient();
-            var booking = new Booking()
-            {
-                CarId = 1,
-                CustomerId = 1,
-                FromDate = DateTime.Now,
-                ToDate = DateTime.Now.AddDays(1),
-                IsReturned = false
-            };
-            var car = new Car()
-            {
-                Brand = "Volvo",
-                Model = "XC90",
-                Year = 2018,
-                RegNr = "LHF912"
-            };
+            //var booking = new Booking()
+            //{
+            //    CarId = 4,
+            //    CustomerId = 1,
+            //    FromDate = new DateTime(2018, 01, 01),
+            //    ToDate = new DateTime(2018, 12, 31),
+            //    IsReturned = false
+            //};
 
             var bs = new BookingService();
-            var book = bs.Get(5);
-            
+
+            bs.IsReturned(5);
+            //bs.Create(booking);
+
+            //var fromDate = DateTime.Now;
+            //var toDate = DateTime.Now.AddDays(2);
+
+            //var carService = new CarService();
+            //var test = carService.GetAllAvailable(fromDate, toDate);
+            //var test2 = carService.GetById(test);
+
+
+
+            //var car = new Car()
+            //{
+            //    Brand = "Volvo",
+            //    Model = "XC90",
+            //    Year = 2018,
+            //    RegNr = "LHF912"
+            //};
+
+
             //var carService = new CarService();
             //carService.Remove(car.RegNr);
             //carService.Add(car);

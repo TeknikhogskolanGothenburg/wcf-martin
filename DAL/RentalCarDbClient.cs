@@ -44,14 +44,33 @@ namespace DAL
         {
             using (var conn = _connection)
             {
-                var queryresult = conn.Query<Car>("Select * From dbo.Car").ToList();
-                return queryresult;
+                var queryResult = conn.Query<Car>("SELECT * FROM dbo.Car").ToList();
+                return queryResult;
             }
         }
 
-        public List<Car> GetAllAvailableCars(DateTime fromDate, DateTime toDate)
+        public List<Car> GetCarsById(List<int> carIds)
         {
+            List<Car> cars = new List<Car>();
+            using (var conn = _connection)
+            {
+                foreach (var id in carIds)
+                {
+                    var queryResult = conn.Query<Car>("SELECT * FROM dbo.Car WHERE Id = @Id", new { Id = id }).FirstOrDefault();
+                    cars.Add(queryResult);
+                }
+            }
+            return cars;
+        }
 
+        public List<int> GetAllAvailableCars(DateTime fromDate, DateTime toDate)
+        {
+            using (var conn = _connection)
+            {
+                var query = "SELECT CarId FROM Booking WHERE @fromDate < FromDate AND @toDate <= FromDate OR @fromDate >= ToDate AND @toDate > ToDate";
+                var queryResult = conn.Query<int>(query, new { fromDate, toDate }).ToList();
+                return queryResult;
+            }
         }
 
         //Customer queries
@@ -98,11 +117,11 @@ namespace DAL
             using (var conn = _connection)
             {
                 var query = "UPDATE Customer SET Firstname = @firstname, Lastname = @lastname, Telephone = @telephone, Email = @email WHERE Id = @id";
-                var result = conn.Execute(query, new { customer.Firstname, customer.Lastname, customer.Telephone, customer.Email, customer.Id});
+                var result = conn.Execute(query, new { customer.Firstname, customer.Lastname, customer.Telephone, customer.Email, customer.Id });
             }
         }
 
-        //Bookings querie
+        //Booking queries
 
         public void AddBooking(Booking booking)
         {
@@ -129,6 +148,15 @@ namespace DAL
             {
                 var booking = conn.Query<Booking>("SELECT * FROM dbo.booking WHERE Id = @ID", new { id }).FirstOrDefault();
                 return booking;
+            }
+        }
+
+        public void IsReturned(int bookingId, bool isReturned)
+        {
+            using (var conn = _connection)
+            {
+                var query = "UPDATE dbo.Booking SET IsReturned = @returned WHERE Id = @BookingID";
+                conn.Execute(query, new { returned = isReturned, BookingID = bookingId });
             }
         }
     }

@@ -21,5 +21,19 @@ namespace BL
             var dataClient = new RentalCarDbClient();
             dataClient.RemoveCar(regNr);
         }
+
+        public List<int> GetAllAvailable(DateTime fromDate, DateTime toDate)
+        {
+            var dataClient = new RentalCarDbClient();
+            var ids = dataClient.GetAllAvailableCars(fromDate, toDate);
+            return ids;
+        }
+
+        public List<Car> GetById(List<int> Ids)
+        {
+            var dataClient = new RentalCarDbClient();
+            var cars = dataClient.GetCarsById(Ids);
+            return cars;
+        }
     }
 }
