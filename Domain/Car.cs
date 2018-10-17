@@ -13,5 +13,10 @@ namespace Domain
         public string Model { get; set; }
         public int Year { get; set; }
         public string RegNr { get; set; }
+
+        public void Add(Car car)
+        {
+
+        }
     }
 }

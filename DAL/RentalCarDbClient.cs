@@ -28,7 +28,7 @@ namespace DAL
                 var insertQuery = @"INSERT INTO [dbo].[Car]([Brand], [Model], [Year], [RegNr]) VALUES (@Brand, @Model, @Year, @RegNr)";
                 var result = conn.Execute(insertQuery, car);
             }
-            
+
         }
 
         public void RemoveCar(string regNr)
@@ -47,6 +47,11 @@ namespace DAL
                 var queryresult = conn.Query<Car>("Select * From dbo.Car").ToList();
                 return queryresult;
             }
+        }
+
+        public List<Car> GetAllAvailableCars(DateTime fromDate, DateTime toDate)
+        {
+
         }
 
         //Customer queries
@@ -70,13 +75,40 @@ namespace DAL
             }
         }
 
-        //Bookings queries
+        public void RemoveCustomer(Customer customer)
+        {
+            using (var conn = _connection)
+            {
+                var delete = "DELETE FROM dbo.Customer WHERE Id = @ID";
+                var isSuccess = conn.Execute(delete, new { ID = customer.Id });
+            }
+        }
+
+        public Customer GetCustomer(int id)
+        {
+            using (var conn = _connection)
+            {
+                var customer = conn.Query<Customer>("SELECT * FROM dbo.customer WHERE Id = @ID", new { id }).FirstOrDefault();
+                return customer;
+            }
+        }
+
+        public void UpdateCustomer(Customer customer)
+        {
+            using (var conn = _connection)
+            {
+                var query = "UPDATE Customer SET Firstname = @firstname, Lastname = @lastname, Telephone = @telephone, Email = @email WHERE Id = @id";
+                var result = conn.Execute(query, new { customer.Firstname, customer.Lastname, customer.Telephone, customer.Email, customer.Id});
+            }
+        }
+
+        //Bookings querie
 
         public void AddBooking(Booking booking)
         {
             using (var conn = _connection)
             {
-                var insertQuery = @"INSERT INTO [dbo].[Booking]([CarId], [CustomerId], [FromDate], [ToDate]) VALUES (@CarId, @CustomerId, @FromDate, @ToDate)";
+                var insertQuery = @"INSERT INTO [dbo].[Booking]([CarId], [CustomerId], [FromDate], [ToDate], [IsReturned]) VALUES (@CarId, @CustomerId, @FromDate, @ToDate, @IsReturned)";
                 var result = conn.Execute(insertQuery, booking);
             }
 
@@ -88,6 +120,15 @@ namespace DAL
             {
                 var delete = "DELETE FROM dbo.Booking WHERE Id = @ID";
                 var isSuccess = conn.Execute(delete, new { ID = id });
+            }
+        }
+
+        public Booking GetBooking(int id)
+        {
+            using (var conn = _connection)
+            {
+                var booking = conn.Query<Booking>("SELECT * FROM dbo.booking WHERE Id = @ID", new { id }).FirstOrDefault();
+                return booking;
             }
         }
     }
