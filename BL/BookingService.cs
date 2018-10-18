@@ -37,5 +37,13 @@ namespace BL
             var dataClient = new RentalCarDbClient();
             dataClient.IsReturned(bookingId, false);
         }
+
+        // TEST!
+
+        public List<Booking> GetAllBookings()
+        {
+            var dataClient = new RentalCarDbClient();
+            return dataClient.GetAllBookings();
+        }
     }
 }

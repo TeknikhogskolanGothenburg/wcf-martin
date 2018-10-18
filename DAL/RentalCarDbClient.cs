@@ -159,5 +159,18 @@ namespace DAL
                 conn.Execute(query, new { returned = isReturned, BookingID = bookingId });
             }
         }
+
+
+        // TEST!
+
+        public List<Booking> GetAllBookings()
+        {
+            using (var conn = _connection)
+            {
+                var query = "SELECT * FROM Booking";
+                var result = conn.Query<Booking>(query).ToList();
+                return result;
+            }
+        }
     }
 }
