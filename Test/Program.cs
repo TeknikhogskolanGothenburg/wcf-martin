@@ -12,8 +12,8 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            var start = DateTime.Now.AddDays(1);
-            var end = DateTime.Now.AddDays(4);
+            var start = DateTime.Now.AddDays(6);
+            var end = DateTime.Now.AddDays(8);
 
             var carData = new CarService();
             var cars = carData.GetAvailableCars(start, end);

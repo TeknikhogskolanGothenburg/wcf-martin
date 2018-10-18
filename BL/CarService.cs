@@ -47,11 +47,9 @@ namespace BL
 
         public List<Car> GetAvailableCars(DateTime startDate, DateTime endDate)
         {
-            var carService = new CarService();
-            var availableCars = carService.GetAllCars();
-
-            var bookingService = new BookingService();
-            var allBookings = bookingService.GetAllBookings();
+            var dataClient = new RentalCarDbClient();
+            var allBookings = dataClient.GetAllBookings();
+            var availableCars = GetAllCars();
 
             var dateBetween = GetDates(startDate, endDate);
 
