@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{314C93D5-B439-49DF-93FE-CAD54078573A}</ProjectGuid>
+    <ProjectGuid>{83EF1822-E4DE-4215-94DE-28732B614ABD}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Test</RootNamespace>
-    <AssemblyName>Test</AssemblyName>
+    <RootNamespace>RentalCarRestServiceHost</RootNamespace>
+    <AssemblyName>RentalCarRestServiceHost</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,17 +51,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BL\BL.csproj">
-      <Project>{0eee6fc6-0dae-4b58-bbd8-9b38c69b2f04}</Project>
-      <Name>BL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DAL\DAL.csproj">
-      <Project>{8363e293-5f48-43de-b495-0e5ee4181faf}</Project>
-      <Name>DAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Domain\Domain.csproj">
-      <Project>{ede5a343-1ea0-4719-ab08-81b9a75831a4}</Project>
-      <Name>Domain</Name>
+    <ProjectReference Include="..\RentalCarService\RentalCarService.csproj">
+      <Project>{0e718282-6f6c-4217-8829-c52b814cc84e}</Project>
+      <Name>RentalCarService</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

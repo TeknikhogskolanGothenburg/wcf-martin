@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL
 {
@@ -28,15 +26,14 @@ namespace DAL
                 var insertQuery = @"INSERT INTO [dbo].[Car]([Brand], [Model], [Year], [RegNr]) VALUES (@Brand, @Model, @Year, @RegNr)";
                 var result = conn.Execute(insertQuery, car);
             }
-
         }
 
-        public void RemoveCar(string regNr)
+        public void RemoveCar(int id)
         {
             using (var conn = _connection)
             {
-                var delete = "DELETE FROM dbo.Car WHERE RegNr = @reg";
-                var isSuccess = conn.Execute(delete, new { reg = regNr });
+                var delete = "DELETE FROM dbo.Car WHERE Id = @ID";
+                var isSuccess = conn.Execute(delete, new { ID = id });
             }
         }
 
@@ -49,18 +46,13 @@ namespace DAL
             }
         }
 
-        public List<Car> GetCarsById(List<int> carIds)
+        public Car GetCarById(int carId)
         {
-            List<Car> cars = new List<Car>();
             using (var conn = _connection)
             {
-                foreach (var id in carIds)
-                {
-                    var queryResult = conn.Query<Car>("SELECT * FROM dbo.Car WHERE Id = @Id", new { Id = id }).FirstOrDefault();
-                    cars.Add(queryResult);
-                }
+                var queryResult = conn.Query<Car>("SELECT * FROM dbo.Car WHERE Id = @Id", new { Id = carId }).FirstOrDefault();
+                return queryResult;
             }
-            return cars;
         }
 
         public List<int> GetAllAvailableCars(DateTime fromDate, DateTime toDate)
@@ -82,7 +74,6 @@ namespace DAL
                 var insertQuery = @"INSERT INTO [dbo].[Customer]([Firstname], [Lastname], [Telephone], [Email]) VALUES (@Firstname, @Lastname, @Telephone, @Email)";
                 var result = conn.Execute(insertQuery, customer);
             }
-
         }
 
         public void RemoveCustomer(int id)
@@ -94,12 +85,13 @@ namespace DAL
             }
         }
 
-        public void RemoveCustomer(Customer customer)
+        //Does this one work?
+        public void UpdateCustomer(Customer customer)
         {
             using (var conn = _connection)
             {
-                var delete = "DELETE FROM dbo.Customer WHERE Id = @ID";
-                var isSuccess = conn.Execute(delete, new { ID = customer.Id });
+                var query = "UPDATE Customer SET Firstname = @firstname, Lastname = @lastname, Telephone = @telephone, Email = @email WHERE Id = @id";
+                var result = conn.Execute(query, new { customer.Firstname, customer.Lastname, customer.Telephone, customer.Email, customer.Id });
             }
         }
 
@@ -112,12 +104,12 @@ namespace DAL
             }
         }
 
-        public void UpdateCustomer(Customer customer)
+        public List<Customer> GetAllCustomers()
         {
             using (var conn = _connection)
             {
-                var query = "UPDATE Customer SET Firstname = @firstname, Lastname = @lastname, Telephone = @telephone, Email = @email WHERE Id = @id";
-                var result = conn.Execute(query, new { customer.Firstname, customer.Lastname, customer.Telephone, customer.Email, customer.Id });
+                var customers = conn.Query<Customer>("SELECT * FROM dbo.customer").ToList();
+                return customers;
             }
         }
 
@@ -174,3 +166,28 @@ namespace DAL
         }
     }
 }
+
+// TEMP
+
+//public void RemoveCustomer(Customer customer)
+//{
+//    using (var conn = _connection)
+//    {
+//        var delete = "DELETE FROM dbo.Customer WHERE Id = @ID";
+//        var isSuccess = conn.Execute(delete, new { ID = customer.Id });
+//    }
+//}
+
+//public List<Car> GetCarsById(List<int> carIds)
+//{
+//    List<Car> cars = new List<Car>();
+//    using (var conn = _connection)
+//    {
+//        foreach (var id in carIds)
+//        {
+//            var queryResult = conn.Query<Car>("SELECT * FROM dbo.Car WHERE Id = @Id", new { Id = id }).FirstOrDefault();
+//            cars.Add(queryResult);
+//        }
+//    }
+//    return cars;
+//}

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain;
+﻿using Domain;
 using DAL;
+using System.Collections.Generic;
 
 namespace BL
 {
@@ -15,21 +11,31 @@ namespace BL
             var dataClient = new RentalCarDbClient();
             dataClient.AddCustomer(customer);
         }
+
         public void Remove(Customer customer)
         {
             var dataClient = new RentalCarDbClient();
-            dataClient.RemoveCustomer(customer);
+            dataClient.RemoveCustomer(customer.Id);
         }
-        public Customer Get(int id)
+
+        public void Edit(Customer customer)
+        {
+            var dataClient = new RentalCarDbClient();
+            dataClient.UpdateCustomer(customer);
+        }
+
+        public Customer GetById(int id)
         {
             var dataClient = new RentalCarDbClient();
             var customer = dataClient.GetCustomer(id);
             return customer;
         }
-        public void Update(Customer customer)
+
+        public List<Customer> GetAllCustomers()
         {
             var dataClient = new RentalCarDbClient();
-            dataClient.UpdateCustomer(customer);
+            var customers = dataClient.GetAllCustomers();
+            return customers;
         }
     }
 }

@@ -1,0 +1,16 @@
+﻿Martin Molin
+
+
+• Var har du valt att hantera exceptions 
+Jag hanterar exceptions på GetBookingById, GetCarById och GetCustomerById.
+På dessa operationer har jag lagt en try/catch som skickar tillbaka ett FaultException om klienten skickar ett ID som inte finns i databasen.
+
+
+• Vilka bindings har du använt, och varför har du valt just dessa 
+Jag använder wsHttpBinding för alla HTTP service endpoints för att jag vill ha Message Security mellan klient och service. På TCP endpoint’sen använder jag netTcpBinding för Transport Security. Mex’en använder mexHttpBinding.
+• Om du provat en sak men inte fått den att fungera som du vill och gjort något annat 
+Jag försökte använda MessageContract på alla Operations så det som skickades mellan klient och server skulle vara CarInfo, CustomerInfo och BookingInfo. Systemet såg collections av dessa typer som nya typer så jag fick använda CarInfo1, CustomerInfo1 och BookingInfo1 klasser på klientsidan. Det fungerade men jag bestämde mig att gå tillbaka till att bara ha det på GetCarById, GetCustomerById och GetBookingById.
+• Och andra aktiva val du har gjort
+
+
+Jag testade att ha API metoderna i samma klass som som WCF servicens  metoder och använde samma HOST för både API och WCF. Tillslut så valde jag att ha API metoderna i en separat klass och ge den en egen host. Nu kan jag stänga av WCF hosten men ändå låta API’t vara på.

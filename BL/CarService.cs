@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DAL;
 using Domain;
 
@@ -16,40 +14,32 @@ namespace BL
             dataClient.AddCar(car);
         }
 
-        public void Remove(string regNr)
+        public void Remove(Car car)
         {
             var dataClient = new RentalCarDbClient();
-            dataClient.RemoveCar(regNr);
+            dataClient.RemoveCar(car.Id);
         }
 
-        public List<int> GetAllAvailable(DateTime fromDate, DateTime toDate)
+        public Car GetById(int id)
         {
             var dataClient = new RentalCarDbClient();
-            var ids = dataClient.GetAllAvailableCars(fromDate, toDate);
-            return ids;
-        }
-
-        public List<Car> GetById(List<int> Ids)
-        {
-            var dataClient = new RentalCarDbClient();
-            var cars = dataClient.GetCarsById(Ids);
+            var cars = dataClient.GetCarById(id);
             return cars;
         }
 
-        // TEST!
-
-        public List<Car> GetAllCars()
+        public List<Car> GetAll()
         {
             var dataClient = new RentalCarDbClient();
             var cars = dataClient.GetAllCars();
             return cars;
         }
 
-        public List<Car> GetAvailableCars(DateTime startDate, DateTime endDate)
+        // GetAvailableCars methods
+        public List<Car> GetAvailable(DateTime startDate, DateTime endDate)
         {
             var dataClient = new RentalCarDbClient();
             var allBookings = dataClient.GetAllBookings();
-            var availableCars = GetAllCars();
+            var availableCars = GetAll();
 
             var dateBetween = GetDates(startDate, endDate);
 
@@ -92,3 +82,14 @@ namespace BL
         }
     }
 }
+
+
+
+//Temp
+
+//public List<int> GetAllAvailable(DateTime fromDate, DateTime toDate)
+//{
+//    var dataClient = new RentalCarDbClient();
+//    var ids = dataClient.GetAllAvailableCars(fromDate, toDate);
+//    return ids;
+//}
